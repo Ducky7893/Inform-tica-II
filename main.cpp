@@ -60,7 +60,42 @@ void problema_dos(){
     cout << "Faltante: " << n << endl;
 }
 
-void problema_cuatro(){}
+void problema_cuatro(){
+        int hora, duracion;
+
+        cout << "Ingrese la hora inicial: ";
+        cin >> hora;
+
+        cout << "Ingrese la duracion: ";
+        cin >> duracion;
+
+        int h1 = hora / 100;
+        int m1 = hora % 100;
+
+        int h2 = duracion / 100;
+        int m2 = duracion % 100;
+
+        if(m1 >= 60 || m2 >= 60){
+            cout << hora << " es un tiempo invalido." << endl;
+            return;
+        }
+
+        int horas = h1 + h2;
+        int minutos = m1 + m2;
+
+        if(minutos >= 60){
+            minutos -= 60;
+            horas++;
+        }
+
+        if(horas >= 24){
+            horas -= 24;
+        }
+
+        int resultado = horas * 100 + minutos;
+
+        cout << "La hora es " << resultado << endl;
+    }
 
 void problema_seis(){
 
