@@ -307,28 +307,59 @@ void conjetura(int x){
         }
     }
 }
+int longitud(int x){
+
+    if(x == 1)
+        return 1;
+
+    if(x % 2 == 0)
+        return 1 + longitud(x/2);
+    else
+        return 1 + longitud(3*x + 1);
+}
 void problema_dieciseis(){
 
-    int x = 0;
+    int x;
 
-    cout <<"Ingresa tu numero semilla porfavor: " <<endl;
+    cout << "Ingresa x: ";
     cin >> x;
-    conjetura(x);
-}
 
+    int mejor_semilla = 1;
+    int max_terminos = 1;
+
+    for(int j = 1; j < x; j++){
+
+        int m = longitud(j);
+
+        if(m > max_terminos){
+            max_terminos = m;
+            mejor_semilla = j;
+        }
+    }
+
+    cout << endl;
+    cout << "La serie mas larga es con la semilla: "
+         << mejor_semilla
+         << ", teniendo "
+         << max_terminos
+         << " terminos." << endl;
+
+    cout << "Serie: ";
+    conjetura(mejor_semilla);
+}
 
 int main(){
 
     int opcion;
 
     void (*ejercicios[8])()={
-    problema_dos, problema_seis, problema_ochoVfinal, problema_diez, problema_doce, problema_catorce, problema_dieciseis
+    problema_dos,problema_cuatro, problema_seis, problema_ochoVfinal, problema_diez, problema_doce, problema_catorce, problema_dieciseis
     };
 
-    cout <<"Ingrese el ejercicio que quiere seleccionar porfavor: ";
+    cout <<"Ingrese el ejercicio que quiere seleccionar porfavor dividos por 2 xd.: ";
     cin >> opcion;
 
-    if(opcion>=1 && opcion <=16){
+    if(opcion>=1 && opcion <=8){
         ejercicios[opcion-1]();
     }
     else{
