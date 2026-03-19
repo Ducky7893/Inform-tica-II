@@ -1,4 +1,4 @@
-#include "pieza.h"
+#include "piezas.h"
 #include <cstdlib>  // rand() — unica libreria externa autorizada
 
 void inicializarPiezas(Pieza* piezas) {
