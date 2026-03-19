@@ -1,8 +1,9 @@
 #ifndef TABLERO_H
 #define TABLERO_H
-#include <stdint.h>
+#include <cstdint> // Uso de la cabecera estándar de C++ y saco la otra que no era
 
-struct Tablero {
+class Tablero { //  Reemplaze el struct por class
+public:
     uint8_t* memoria;
     int ancho;
     int alto;
