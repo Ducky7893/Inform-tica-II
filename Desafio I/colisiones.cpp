@@ -2,13 +2,16 @@
 #include <cstdint>
 
 static void alinearFilaPieza(uint8_t* buffer, uint8_t filaPieza, int x, int bytesPorFila) {
-    // Subimos a 16 bits para poder desplazar sin perder bits al cruzar el límite de byte
+    // Subimos a 16 bits para poder desplazar sin perder bits al cruzar el limite de byte
     uint16_t bits = (uint16_t)filaPieza << 8;
     bits = bits >> x;
     int byteOffset = x / 8;
-    if (byteOffset < bytesPorFila)
+
+    // Validacion explicita de indices para el analizador estatico
+    if (byteOffset >= 0 && byteOffset < bytesPorFila)
         *(buffer + byteOffset) |= (uint8_t)(bits >> 8);
-    if (byteOffset + 1 < bytesPorFila)
+
+    if ((byteOffset + 1) >= 0 && (byteOffset + 1) < bytesPorFila)
         *(buffer + byteOffset + 1) |= (uint8_t)(bits & 0xFF);
 }
 
@@ -59,13 +62,11 @@ void fijarPiezaEnTablero(Tablero* t, const PiezaActiva* pa) {
 
 int eliminarLineas(Tablero* t) {
     int contador = 0;
-    // Se recorre de abajo hacia arriba para que al eliminar una fila
-    // las filas superiores bajen y no se salten en la iteración
     for (int f = t->alto - 1; f >= 0; f--) {
         if (filaCompleta(t, f)) {
             eliminarFila(t, f);
             contador++;
-            f++; // La fila que bajó debe re-evaluarse en la misma posición
+            f++; // Re-evaluar la misma posicion ya que lo de arriba bajo
         }
     }
     return contador;
