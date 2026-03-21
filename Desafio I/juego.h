@@ -2,7 +2,7 @@
 #define JUEGO_H
 
 #include "tablero.h"
-#include "pieza.h"
+#include "piezas.h"
 
 class Juego {
 public:
