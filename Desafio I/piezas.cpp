@@ -1,63 +1,61 @@
 #include "piezas.h"
-#include <cstdlib>  // rand() — unica libreria externa autorizada
+#include <cstdlib>  // rand() — Única librería externa autorizada según tu indicación
 
 void inicializarPiezas(Pieza* piezas) {
-    // PIEZA I — linea horizontal de 4 bloques
-    //   ####
-    piezas[0].id         = 'I';
-    piezas[0].anchoBase  = 4;
-    piezas[0].altoBase   = 1;
-    piezas[0].formaBase[0] = 0xF0;
+    // Usamos aritmética de punteros para acceder a los elementos del arreglo de piezas
 
-    // PIEZA O — cuadrado 2x2
-    //   ##
-    //   ##
-    piezas[1].id         = 'O';
-    piezas[1].anchoBase  = 2;
-    piezas[1].altoBase   = 2;
-    piezas[1].formaBase[0] = 0xC0;
-    piezas[1].formaBase[1] = 0xC0;
+    // PIEZA I — Línea horizontal
+    Pieza* pI = (piezas + 0);
+    pI->id         = 'I';
+    pI->anchoBase  = 4;
+    pI->altoBase   = 1;
+    *(pI->formaBase + 0) = 0xF0; // 11110000
+
+    // PIEZA O — Cuadrado 2x2
+    Pieza* pO = (piezas + 1);
+    pO->id         = 'O';
+    pO->anchoBase  = 2;
+    pO->altoBase   = 2;
+    *(pO->formaBase + 0) = 0xC0; // 11000000
+    *(pO->formaBase + 1) = 0xC0;
 
     // PIEZA T
-    //   .#.
-    //   ###
-    piezas[2].id         = 'T';
-    piezas[2].anchoBase  = 3;
-    piezas[2].altoBase   = 2;
-    piezas[2].formaBase[0] = 0x40;
-    piezas[2].formaBase[1] = 0xE0;
+    Pieza* pT = (piezas + 2);
+    pT->id         = 'T';
+    pT->anchoBase  = 3;
+    pT->altoBase   = 2;
+    *(pT->formaBase + 0) = 0x40; // 01000000
+    *(pT->formaBase + 1) = 0xE0; // 11100000
 
     // PIEZA S
-    //   .##
-    //   ##.
-    piezas[3].id         = 'S';
-    piezas[3].anchoBase  = 3;
-    piezas[3].altoBase   = 2;
-    piezas[3].formaBase[0] = 0x60;
-    piezas[3].formaBase[1] = 0xC0;
+    Pieza* pS = (piezas + 3);
+    pS->id         = 'S';
+    pS->anchoBase  = 3;
+    pS->altoBase   = 2;
+    *(pS->formaBase + 0) = 0x60; // 01100000
+    *(pS->formaBase + 1) = 0xC0; // 11000000
 
     // PIEZA Z
-    //   ##.
-    //   .##
-    piezas[4].id         = 'Z';
-    piezas[4].anchoBase  = 3;
-    piezas[4].altoBase   = 2;
-    piezas[4].formaBase[0] = 0xC0;
-    piezas[4].formaBase[1] = 0x60;
+    Pieza* pZ = (piezas + 4);
+    pZ->id         = 'Z';
+    pZ->anchoBase  = 3;
+    pZ->altoBase   = 2;
+    *(pZ->formaBase + 0) = 0xC0;
+    *(pZ->formaBase + 1) = 0x60;
 
-    // PIEZA J  gancho a la izquierda
-    //   #..
-    //   ###
-    piezas[5].id         = 'J';
-    piezas[5].anchoBase  = 3;
-    piezas[5].altoBase   = 2;
-    piezas[5].formaBase[0] = 0x80;
-    piezas[5].formaBase[1] = 0xE0;
+    // PIEZA J
+    Pieza* pJ = (piezas + 5);
+    pJ->id         = 'J';
+    pJ->anchoBase  = 3;
+    pJ->altoBase   = 2;
+    *(pJ->formaBase + 0) = 0x80; // 10000000
+    *(pJ->formaBase + 1) = 0xE0; // 11100000
 }
 
-
 int obtenerBit(const Forma* f, int fila, int col) {
-    return (f->filas[fila] >> (7 - col)) & 1;
+    // Uso de bitwise y aritmética de punteros
+    uint8_t filaByte = *(f->filas + fila);
+    return (filaByte >> (7 - col)) & 1;
 }
 
 Forma rotarForma(const Forma* f) {
@@ -65,20 +63,18 @@ Forma rotarForma(const Forma* f) {
     resultado.ancho = f->alto;
     resultado.alto  = f->ancho;
 
+    // Limpiar filas del resultado usando punteros
     for (int i = 0; i < MAX_FILAS_PIEZA; i++) {
-        resultado.filas[i] = 0;
+        *(resultado.filas + i) = 0;
     }
+
     for (int fila = 0; fila < f->alto; fila++) {
         for (int col = 0; col < f->ancho; col++) {
-
-            int bit = obtenerBit(f, fila, col);
-
-            if (bit == 1) {
-
+            if (obtenerBit(f, fila, col) == 1) {
                 int nuevaFila = col;
                 int nuevoCol  = f->alto - 1 - fila;
-
-                resultado.filas[nuevaFila] |= (uint8_t)(1 << (7 - nuevoCol));
+                // Aplicar máscara de bits con OR
+                *(resultado.filas + nuevaFila) |= (uint8_t)(1 << (7 - nuevoCol));
             }
         }
     }
@@ -86,18 +82,17 @@ Forma rotarForma(const Forma* f) {
 }
 
 Forma obtenerFormaActual(const Pieza* pieza, int numRotaciones) {
-
     Forma forma;
     forma.ancho = pieza->anchoBase;
     forma.alto  = pieza->altoBase;
 
     for (int i = 0; i < MAX_FILAS_PIEZA; i++) {
-        forma.filas[i] = 0;
+        *(forma.filas + i) = (i < pieza->altoBase) ? *(pieza->formaBase + i) : 0;
     }
-    for (int i = 0; i < pieza->altoBase; i++) {
-        forma.filas[i] = pieza->formaBase[i];
-    }
-    for (int r = 0; r < numRotaciones; r++) {
+
+    // El número de rotaciones efectivas es mod 4
+    int rotaciones = numRotaciones % 4;
+    for (int r = 0; r < rotaciones; r++) {
         forma = rotarForma(&forma);
     }
 
@@ -108,14 +103,16 @@ PiezaActiva generarNuevaPieza(Pieza* piezas, int anchoTablero) {
     int indice = rand() % NUM_PIEZAS;
 
     PiezaActiva pa;
-    pa.tipo      = &piezas[indice];
+    pa.tipo      = (piezas + indice);
     pa.rotActual = 0;
-
+    // Centrar pieza: aritmética simple
     pa.x = (anchoTablero - pa.tipo->anchoBase) / 2;
     pa.y = 0;
 
     return pa;
 }
+
 void rotarPieza(PiezaActiva* pa) {
+    // Operador módulo para mantener la rotación entre 0 y 3
     pa->rotActual = (pa->rotActual + 1) % 4;
 }
