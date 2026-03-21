@@ -27,7 +27,7 @@ private:
     void fijarPieza();
     void eliminarLineas();
     void spawnNuevaPieza();
-    void imprimirEstado() const;
+    // imprimirEstado() eliminada — ahora usa imprimirEstadoConsola() de io_consola
 };
 
 #endif // JUEGO_H
