@@ -3,7 +3,6 @@
 
 #include "tablero.h"
 #include "piezas.h"
-#include "colisiones.h"
 
 class Juego {
 public:

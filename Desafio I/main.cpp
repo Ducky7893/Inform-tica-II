@@ -2,6 +2,7 @@
 #include "io_consola.h"
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
 int main() {
     srand((unsigned int)time(nullptr));  // semilla aleatoria
@@ -11,7 +12,7 @@ int main() {
     
     Juego juego;
     juego.inicializar(ancho, alto);
-    
+
     std::cout << "Tablero inicial:\n";
     imprimirTablero(&juego.tablero); 
 
