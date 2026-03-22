@@ -1,5 +1,6 @@
 #include "juego.h"
 #include "io_consola.h"
+#include "Colisiones.h"
 
 void Juego::inicializar(int ancho, int alto) {
     inicializarTablero(&tablero, ancho, alto);

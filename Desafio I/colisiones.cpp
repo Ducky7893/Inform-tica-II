@@ -3,9 +3,11 @@
 
 static void alinearFilaPieza(uint8_t* buffer, uint8_t filaPieza, int x, int bytesPorFila) {
     // Subimos a 16 bits para poder desplazar sin perder bits al cruzar el limite de byte
-    uint16_t bits = (uint16_t)filaPieza << 8;
-    bits = bits >> x;
-    int byteOffset = x / 8;
+    uint16_t bits      = (uint16_t)filaPieza << 8;
+    int      bitOffset = x % 8;   
+    int      byteOffset = x / 8; 
+
+    bits = bits >> bitOffset;     // era >> x, ahora solo el desplazamiento dentro del byte
 
     // Validacion explicita de indices para el analizador estatico
     if (byteOffset >= 0 && byteOffset < bytesPorFila)
@@ -14,6 +16,7 @@ static void alinearFilaPieza(uint8_t* buffer, uint8_t filaPieza, int x, int byte
     if ((byteOffset + 1) >= 0 && (byteOffset + 1) < bytesPorFila)
         *(buffer + byteOffset + 1) |= (uint8_t)(bits & 0xFF);
 }
+
 
 bool puedeColocarPieza(const Tablero* t, const PiezaActiva* pa) {
     Forma f = obtenerFormaActual(pa->tipo, pa->rotActual);
