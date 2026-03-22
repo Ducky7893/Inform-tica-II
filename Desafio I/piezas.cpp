@@ -1,5 +1,5 @@
 #include "piezas.h"
-#include <cstdlib>  // rand() — Única librería externa autorizada según tu indicación
+#include <cstdlib>  // rand() — Única librería externa autorizada 
 
 void inicializarPiezas(Pieza* piezas) {
     // Usamos aritmética de punteros para acceder a los elementos del arreglo de piezas
@@ -50,6 +50,22 @@ void inicializarPiezas(Pieza* piezas) {
     pJ->altoBase   = 2;
     *(pJ->formaBase + 0) = 0x80; // 10000000
     *(pJ->formaBase + 1) = 0xE0; // 11100000
+
+    // PIEZA L — gancho a la derecha
+    Pieza* pL = (piezas + 6);
+    pL->id         = 'L';
+    pL->anchoBase  = 3;
+    pL->altoBase   = 2;
+    *(pL->formaBase + 0) = 0x20; // 00100000 →  ..X
+    *(pL->formaBase + 1) = 0xE0; // 11100000 →  XXX
+
+
+
+
+
+
+
+
 }
 
 int obtenerBit(const Forma* f, int fila, int col) {

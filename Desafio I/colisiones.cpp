@@ -31,7 +31,7 @@ bool puedeColocarPieza(const Tablero* t, const PiezaActiva* pa) {
             colision = true;
               break;
                 }
-        }
+                
         if (pa->x < 0 || (pa->x + f.ancho) > t->ancho) { colision = true; break; }
 
         alinearFilaPieza(filaBuffer, *(f.filas + i), pa->x, t->bytesPorFila);

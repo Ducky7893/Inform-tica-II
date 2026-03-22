@@ -4,7 +4,7 @@
 #include <cstdint> // corregi la cabecera 
 
 const int MAX_FILAS_PIEZA = 4;
-const int NUM_PIEZAS      = 6;
+const int NUM_PIEZAS      = 7;
 
 // cambie por class
 class Pieza {

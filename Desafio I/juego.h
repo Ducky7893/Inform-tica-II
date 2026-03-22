@@ -7,12 +7,12 @@
 
 class Juego {
 public:
+    Tablero     tablero;            
     void inicializar(int ancho, int alto);
     void liberar();
     void cicloDelJuego();
 
 private:
-    Tablero     tablero;            
     Pieza       piezas[NUM_PIEZAS]; 
     PiezaActiva piezaActiva;        
     int         puntaje;            
