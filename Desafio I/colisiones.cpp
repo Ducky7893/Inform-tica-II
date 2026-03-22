@@ -24,9 +24,13 @@ bool puedeColocarPieza(const Tablero* t, const PiezaActiva* pa) {
         int filaTablero = pa->y + i;
         for (int b = 0; b < t->bytesPorFila; b++) *(filaBuffer + b) = 0;
 
-        if (filaTablero < 0 || filaTablero >= t->alto) {
-            if (*(f.filas + i) != 0) { colision = true; break; }
+        if (filaTablero < 0) {
             continue;
+                   }
+        if (filaTablero >= t->alto) {
+            colision = true;
+              break;
+                }
         }
         if (pa->x < 0 || (pa->x + f.ancho) > t->ancho) { colision = true; break; }
 
