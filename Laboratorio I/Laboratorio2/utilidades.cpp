@@ -211,14 +211,18 @@ void problema_nueve() {
 }
 
 void mostrar_sala(bool **sala, int filas, int columnas) {
+    cout << "   ";
+    for (int j = 1; j <= columnas; j++) {
+        if (j < 10) cout << " " << j << " ";
+        else cout << j << " ";
+    }
+    cout << "\n";
+
     for (int i = 0; i < filas; i++) {
-        for (int j = 0; j < columnas; j++) {
-            if (sala[i][j])
-                cout << "+ ";
-            else
-                cout << "- ";
-        }
-        cout << endl;
+        cout << (char)('A' + i) << "  ";
+        for (int j = 0; j < columnas; j++)
+            cout << (sala[i][j] ? " + " : " - ");
+        cout << "\n";
     }
 }
 
@@ -236,30 +240,42 @@ void problema_once() {
     char opcion;
     do {
         mostrar_sala(sala, filas, columnas);
-
         cout << "R: Reservar, C: Cancelar, S: Salir: ";
         cin >> opcion;
+        opcion = toupper(opcion);
 
         if (opcion == 'R' || opcion == 'C') {
             char fila_char;
             int asiento;
-
             cout << "Fila (A-O): ";
             cin >> fila_char;
+            fila_char = toupper(fila_char);
             cout << "Asiento (1-20): ";
             cin >> asiento;
 
             int fila = fila_char - 'A';
-            int col = asiento - 1;
+            int col  = asiento - 1;
 
             if (fila >= 0 && fila < filas && col >= 0 && col < columnas) {
-                if (opcion == 'R')
-                    sala[fila][col] = true;
-                else
-                    sala[fila][col] = false;
+                if (opcion == 'R') {
+                    if (sala[fila][col])
+                        cout << "Ese asiento ya esta reservado.\n";
+                    else {
+                        sala[fila][col] = true;
+                        cout << "Asiento reservado.\n";
+                    }
+                } else {
+                    if (!sala[fila][col])
+                        cout << "Ese asiento no estaba reservado.\n";
+                    else {
+                        sala[fila][col] = false;
+                        cout << "Reserva cancelada.\n";
+                    }
+                }
+            } else {
+                cout << "Fila o asiento invalido.\n";
             }
         }
-
     } while (opcion != 'S');
 
     for (int i = 0; i < filas; i++)
@@ -308,11 +324,10 @@ void problema_uno() {
     cout << "Ingrese la cantidad de dinero: ";
     cin >> dinero;
 
-    int n = 9;
+    int n = 10;
 
     // Denominaciones dinámicas
-    int *denominaciones = new int[n]{1000, 500, 200, 100, 50, 20, 10, 5, 1};
-
+    int *denominaciones = new int[n]{50000, 20000, 10000, 5000, 2000,1000, 500, 200, 100, 50};
     int *cantidad = new int[n];
 
     for (int i = 0; i < n; i++) {
@@ -325,7 +340,34 @@ void problema_uno() {
     for (int i = 0; i < n; i++) {
         cout << denominaciones[i] << ": " << cantidad[i] << endl;
     }
-
     delete[] denominaciones;
     delete[] cantidad;
+}
+
+int suma_divisores(int num) {
+    int suma = 0;
+
+    for (int i = 1; i <= num / 2; i++) {
+        if (num % i == 0)
+            suma += i;
+    }
+
+    return suma;
+}
+
+void problema_diecisiete(){
+    int n;
+    cin >> n;
+
+    int suma_total = 0;
+
+    for (int i = 1; i < n; i++) {
+        int b = suma_divisores(i);
+
+        if (b < n && b != i && suma_divisores(b) == i && i < b) {
+            suma_total += i + b;
+        }
+    }
+
+    cout << suma_total;
 }
