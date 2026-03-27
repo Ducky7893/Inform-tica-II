@@ -1,0 +1,104 @@
+Codigos de tinkercard
+\\\
+void problema_uno(long dinero) {
+    int n = 10;
+    long denominaciones[10] = {50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100, 50};
+    long cantidad[10];
+
+    long restante = dinero;
+
+    for (int i = 0; i < n; i++) {
+        cantidad[i] = restante / denominaciones[i];
+        restante %= denominaciones[i];
+    }
+
+    Serial.println("\nDescomposicion:");
+    for (int i = 0; i < n; i++) {
+        Serial.print(denominaciones[i]);
+        Serial.print(": ");
+        Serial.println(cantidad[i]);
+    }
+
+    if (restante > 0) {
+        Serial.print("Faltante: ");
+        Serial.println(restante);
+    }
+}
+
+void setup() {
+    Serial.begin(9600);
+    Serial.println("Ingrese la cantidad de dinero:");
+}
+
+void loop() {
+    if (Serial.available() > 0) {	
+        while (Serial.available() > 0) {
+          char c = Serial.read();
+            if (c != '\n' && c != '\r')
+               input += c;
+               }
+        input.trim();
+        if (input.length() > 0) {
+            long dinero = input.toInt();
+            if (dinero > 0) {
+                problema_uno(dinero);
+                Serial.println("\nIngrese otro valor:");
+            } else {
+                Serial.println("Por favor ingrese un valor positivo.");
+            }
+        }
+    }
+}
+\\\
+long suma_divisores(long num) {
+    long suma = 0;
+    for (long i = 1; i <= num / 2; i++) {
+        if (num % i == 0)
+            suma += i;
+    }
+    return suma;
+}
+
+void problema_diecisiete(long n) {
+    long suma_total = 0;
+    for (long i = 1; i < n; i++) {
+        long b = suma_divisores(i);
+        if (b != i && b > 0 && suma_divisores(b) == i && i < b) {
+            suma_total += i + b;
+        }
+    }
+    Serial.print("El resultado de la suma es: ");
+    Serial.println(suma_total);
+}
+
+void setup() {
+    Serial.begin(9600);
+    Serial.println("Ingrese un numero:");
+}
+
+void loop() {
+    if (Serial.available() > 0) {
+        delay(100); // Espera a que lleguen todos los caracteres
+        String input = "";
+        while (Serial.available() > 0) {
+            char c = Serial.read();
+            if (c != '\n' && c != '\r') {
+                input += c;
+            }
+        }
+        if (input.length() > 0) {
+            long n = atol(input.c_str());// especial de C, (No funcionaba sin esto) convierte string a numero y el atol es un long, tam bien de c
+            Serial.print("Numero recibido: ");
+            Serial.println(n); // Para verificar que llegó bien
+            if (n > 0) {
+                problema_diecisiete(n);
+                Serial.println("\nIngrese otro numero:");
+            } else {
+                Serial.println("Ingrese un valor positivo.");
+            }
+        }
+    }
+}
+
+
+\\\
