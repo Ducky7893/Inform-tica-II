@@ -18,9 +18,14 @@ void problema_nueve();
 void problema_once();
 void problema_quince_rect();
 void ejercicio_quince();
+void problema_diecisiete();
+
+// Utilidades
+int  suma_divisores();
 
 // Matrices
 int encontrar_estrellas(int **matriz, int filas, int columnas);
 
 
 #endif
+
