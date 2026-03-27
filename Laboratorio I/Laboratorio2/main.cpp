@@ -17,7 +17,8 @@ int main() {
         {3, ejercicio_tres},
         {5, ejercicio_cinco},
         {7, ejercicio_siete},
-        {13, ejercicio_quince}
+        {13, ejercicio_quince},
+        {17, problema_diecisiete},
     };
 
     int n = sizeof(menu) / sizeof(menu[0]);
@@ -33,6 +34,7 @@ int main() {
         cout << "11. Problema 11\n";
         cout << "13. Problema 13\n";
         cout << "15. Problema 15\n";
+        cout << "17. Problema 17\n";
 
         cout << "0. Salir\n";
 
