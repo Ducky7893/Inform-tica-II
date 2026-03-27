@@ -312,8 +312,7 @@ void problema_uno() {
 
     // Denominaciones dinámicas
     int *denominaciones = new int[n]{1000, 500, 200, 100, 50, 20, 10, 5, 1};
-
-    // Resultado dinámico
+
     int *cantidad = new int[n];
 
     for (int i = 0; i < n; i++) {
@@ -326,8 +325,7 @@ void problema_uno() {
     for (int i = 0; i < n; i++) {
         cout << denominaciones[i] << ": " << cantidad[i] << endl;
     }
-
-    // Liberar memoria 🔥
+
     delete[] denominaciones;
     delete[] cantidad;
 }
